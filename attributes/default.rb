@@ -1,8 +1,10 @@
 default[:nginx][:version]           = "1.4.4"
 default[:nginx][:version]           = "1.4.1" if node[:platform_version].to_f < 12.04
-default[:nginx][:apt_packages]      = %w[nginx-common nginx-full nginx]
+default[:nginx][:distribution]      = node[:lsb][:codename]
+default[:nginx][:apt_repository]    = "http://ppa.launchpad.net/nginx/stable/ubuntu"
+default[:nginx][:apt_packages]      = %w[nginx-common nginx-full nginx nginx-custom]
 default[:nginx][:apt_keyserver]     = "keyserver.ubuntu.com"
-
+default[:nginx][:apt_key]           = "C300EE8C"
 default[:nginx][:dir]               = "/etc/nginx"
 default[:nginx][:log_dir]           = "/var/log/nginx"
 default[:nginx][:access_log_format] = "default"
@@ -252,11 +254,11 @@ default[:nginx][:ssl][:prefer_server_ciphers] = "on"
 
 ### Self-Signed Certificate Configuration
 #
-default[:nginx][:ssl][:self_signed][:path] = false # ex: /etc/nginx/ssl
-default[:nginx][:ssl][:self_signed][:cert] = false # ex: foo.cert
-default[:nginx][:ssl][:self_signed][:key] = false # ex: foo.key
-default[:nginx][:ssl][:self_signed][:valid_days] = 15
-default[:nginx][:ssl][:self_signed][:subject] = {}
+default[:nginx][:ssl_self_signed][:path] = false # ex: /etc/nginx/ssl
+default[:nginx][:ssl_self_signed][:cert] = false # ex: foo.cert
+default[:nginx][:ssl_self_signed][:key] = false # ex: foo.key
+default[:nginx][:ssl_self_signed][:valid_days] = 15
+default[:nginx][:ssl_self_signed][:subject] = {}
 # subject is a Hash of any of the following values
 #  common_name: 'foo.example.com',
 #  country: 'US',
