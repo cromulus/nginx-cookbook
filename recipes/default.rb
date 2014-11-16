@@ -1,7 +1,7 @@
 include_recipe "apt"
 
 apt_repository "nginx" do
-  uri node[:nginx][:repository_url]
+  uri node[:nginx][:apt_repository_url]
   distribution node[:nginx][:distribution]
   components node[:nginx][:components]
   keyserver node[:nginx][:apt_keyserver]
