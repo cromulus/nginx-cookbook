@@ -9,19 +9,16 @@ apt_repository "nginx" do
   action :add
 end
 
-node[:nginx][:apt_packages].each do |nginx_package|
-  package nginx_package do
-    version "#{node[:nginx][:version]}*"
-    options '--force-yes -o Dpkg::Options::="--force-confold"'
-    only_if "[ $(dpkg -l #{nginx_package} 2>&1 | grep #{node[:nginx][:version]}.* | grep -c '^h[ic] ') = 0 ]"
-  end
+nginx_package = node[:nginx][:apt_package]
+package node[:nginx][:apt_package] do
+  version "#{node[:nginx][:version]}*"
+  options '--force-yes -o Dpkg::Options::="--force-confold"'
+  only_if "[ $(dpkg -l #{nginx_package} 2>&1 | grep #{node[:nginx][:version]}.* | grep -c '^h[ic] ') = 0 ]"
 end
 
-node[:nginx][:apt_packages].each do |nginx_package|
-  bash "freeze #{nginx_package}" do
-    code "echo #{nginx_package} hold | dpkg --set-selections"
-    only_if "[ $(dpkg --get-selections | grep -c '#{nginx_package}\W*hold') = 0 ]"
-  end
+bash "freeze #{nginx_package}" do
+  code "echo #{nginx_package} hold | dpkg --set-selections"
+  only_if "[ $(dpkg --get-selections | grep -c '#{nginx_package}\W*hold') = 0 ]"
 end
 
 service "nginx" do
