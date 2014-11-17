@@ -1,10 +1,10 @@
 default[:nginx][:version]           = "1.4.4"
 default[:nginx][:version]           = "1.4.1" if node[:platform_version].to_f < 12.04
 default[:nginx][:distribution]      = node[:lsb][:codename]
-default[:nginx][:apt_repository]    = "http://ppa.launchpad.net/rtcamp/nginx/ubuntu"
+default[:nginx][:apt_repository]    = "http://ppa.launchpad.net/nginx/stable/ubuntu"
 default[:nginx][:apt_packages]      = %w[nginx-common nginx-full nginx nginx-custom]
 default[:nginx][:apt_keyserver]     = "keyserver.ubuntu.com"
-default[:nginx][:apt_key]           = "387AFF02"
+default[:nginx][:apt_key]           = "C300EE8C"
 default[:nginx][:dir]               = "/etc/nginx"
 default[:nginx][:log_dir]           = "/var/log/nginx"
 default[:nginx][:access_log_format] = "default"
